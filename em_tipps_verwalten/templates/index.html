@@ -3,7 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EM Tipps</title>
+    <title>EM-Tipp</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+        padding-top: 20px; /* Abstand vom oberen Rand */
+        }
+        .navbar {
+        background-color: #343a40; /* Dunkelgrau */
+        }
+        .navbar-brand, .navbar-nav .nav-link {
+        color: #ffffff !important; /* Weiße Schriftfarbe */
+        }
+    </style>
 </head>
 <body>
     {% include 'menu.html'%}
@@ -12,6 +25,9 @@
 
         {% endblock content %}
     </div>
-    
+<!-- Bootstrap JS und jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  
 </body>
 </html>

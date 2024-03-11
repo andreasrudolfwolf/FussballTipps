@@ -13,6 +13,12 @@ def paarungen(request):
 def tippen(request):
     return render(request, 'tippen.html')
 
+def loginSeite(request):
+    return render(request, 'loginSeite.html')
+
+def registerSeite(request):
+    return render(request, 'registerSeite.html')
+
 """def loginSeite(request):
     #if request.method == 'POST':
      #   benutzername = request.POST['benutzername']
