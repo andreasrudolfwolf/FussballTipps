@@ -20,7 +20,7 @@ class Mannschaften(models.Model):
     mannschaft_id = models.AutoField(primary_key=True)
     mannschaft_name = models.CharField(max_length=100)
     land_id = models.ForeignKey(Laender, models.DO_NOTHING)
-    gruppen_id = models.ForeignKey(Gruppen, models.DO_NOTHING)
+    gruppen_id = models.ForeignKey(Gruppen, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.mannschaft_name
@@ -35,6 +35,10 @@ class Paarungen(models.Model):
     spiel_ort = models.CharField(max_length=100, blank=True, null=True)
     bemerkung = models.TextField(blank=True, null=True)
 
+class Finalspiele(models.Model):
+    final_id = models.AutoField(primary_key=True),
+    final_name = models.CharField(max_length=100),
+    paarung_id = models.ForeignKey(Paarungen, models.DO_NOTHING)
 
 class Tipper(models.Model):
     tipper_id = models.AutoField(primary_key=True)

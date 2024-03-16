@@ -1,14 +1,22 @@
 from django.shortcuts import render
+from .models import *
 #from django.contrib import messages
 #from django.contrib.auth import authenticate, login
 
 
 
 def startSeite(request):
-    return render(request, 'startSeite.html')
+    gruppen = Gruppen.objects.all()
+    print(gruppen)
+    ctx = {'gruppen': gruppen}
+    return render(request, 'startSeite.html', ctx)
 
 def paarungen(request):
     return render(request, 'paarungen.html')
+
+def gruppenspiele(request, id):
+    print(id)
+    return render(request, 'gruppenspiele.html')
 
 def tippen(request):
     return render(request, 'tippen.html')
