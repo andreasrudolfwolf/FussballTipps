@@ -1,5 +1,36 @@
 {% extends 'index.html' %}
 
+{% load static %}
+
 {% block content %}
-    <h2>Gruppenspiele</h2>
+<div class="container mt-5">
+    <!--Aus den Gruppenspielen .0. Nur die Gruppe ohne Schleifendurchlauf nehmen!-->
+    <div class="row justify-content-center mb-4">
+        <h1>Ergebnisse der {{gruppenspiele.0}}</h1>
+    </div>
+    {% for gruppenspiel in gruppenspiele %}
+        <div class="row">
+            <div class="col-md-3">
+            <p>{{gruppenspiel.spiel_termin|date:"d. F Y H:i"}} Uhr</p>  
+            </div>
+            <div class="col-md-2">
+                <p>{{gruppenspiel.spiel_ort}}</p>
+            </div>
+            <div class="col-md-3">
+                <p>{{gruppenspiel.heim_mannschaft}} : {{gruppenspiel.gast_mannschaft}} </p>
+            </div>
+            <div class="col-md-3">
+                {% if gruppenspiel.tore_heim_mannschaft is None%}
+                    <p> : </p>
+                {% else %}
+                    <p>{{gruppenspiel.tore_heim_mannschaft}} : {{gruppenspiel.tore_gast_mannschaft}}</p>
+                {% endif %} 
+            </div>
+        </div>
+    {% endfor %}
+    <!--Zurück zur StartSeite springen-->
+    <div class="row-mt-4">
+        <a class="nav-link" href="{% url 'startSeite'%}">zurück zur Startseite</a>
+    </div>
+</div>
 {% endblock content %}

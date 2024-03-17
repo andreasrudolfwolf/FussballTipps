@@ -1,30 +1,28 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
-<div class="container mt-5">
-  <div class="row justify-content-center mb-4">
-    <h1>Europameisterschaften in Deutschland 2024</h1>
-  </div>
-    <div class="row">
-      {% for gruppe in gruppen %}
-        <div class="col-md-4 mb-5">
-          <div class="card">
-            <div class="card-body">
-              <h3 class="card-title">{{gruppe.gruppen_name}}</h3>
-              <p>{{gruppe.id}}</p>
-              <!--Alle Mannschaften der Gruppe ausgeben
-              gruppenspiele/<int:id>-->
-              {% for mannschaft in gruppe.mannschaften_set.all %}
-                <p class="card-text mt-2">{{mannschaft.mannschaft_name}}</p>
-              {% endfor%}
-              <div class="row-mt-4">
-                <a class="nav-link" href="{% url 'gruppenspiele' id=gruppe.id %}">Gruppenspiele</a>
+  <div class="container mt-5">
+    <div class="row justify-content-center mb-4">
+      <h1>Europameisterschaften in Deutschland 2024</h1>
+    </div>
+      <div class="row">
+        {% for gruppe in gruppen %}
+          <div class="col-md-4 mb-5">
+            <div class="card">
+              <div class="card-body">
+                <h3 class="card-title">{{gruppe.gruppen_name}}</h3>
+                <!--Alle Mannschaften der Gruppe ausgeben
+                gruppenspiele/<int:id>-->
+                {% for mannschaft in gruppe.mannschaften_set.all %}
+                  <p class="card-text mt-2">{{mannschaft.mannschaft_name}}</p>
+                {% endfor%}
+                <div class="row-mt-4">
+                  <a class="nav-link" href="{% url 'gruppenspiele' id=gruppe.id %}">Gruppenspiele</a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      {% endfor %}
-    </div>
-
+        {% endfor %}
+      </div>
   </div>
 {% endblock content %}

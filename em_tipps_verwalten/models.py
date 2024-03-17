@@ -35,10 +35,15 @@ class Paarungen(models.Model):
     spiel_ort = models.CharField(max_length=100, blank=True, null=True)
     bemerkung = models.TextField(blank=True, null=True)
 
+
 class Finalspiele(models.Model):
     final_id = models.AutoField(primary_key=True),
     final_name = models.CharField(max_length=100),
-    paarung_id = models.ForeignKey(Paarungen, models.DO_NOTHING)
+    paarung_id = models.ForeignKey(Paarungen, models.DO_NOTHING, db_column='paarung_id')
+
+    def __str__(self) -> str:
+        return self.final_name
+
 
 class Tipper(models.Model):
     tipper_id = models.AutoField(primary_key=True)
@@ -49,10 +54,9 @@ class Tipper(models.Model):
     def __str__(self) -> str:
         return self.name
 
-
 class Tipps(models.Model):
     tipp_id = models.AutoField(primary_key=True)
-    tipper_id = models.ForeignKey('Tipper', models.DO_NOTHING, db_column='tipper_id')
+    tipper_id = models.ForeignKey(Tipper, models.DO_NOTHING, db_column='tipper_id')
     paarungen_id = models.ForeignKey(Paarungen, models.DO_NOTHING, db_column='paarungen_id')
     tipp_tore_heim_mannschaft = models.IntegerField()
     tipp_tore_gast_mannschaft = models.IntegerField()

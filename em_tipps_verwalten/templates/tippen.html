@@ -1,5 +1,45 @@
 {% extends 'index.html' %}
 
+{% load static %}
+
 {% block content %}
-    <h2>Tippseite</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center mb-4">
+        <h1>Meine Tipps</h1>
+    </div>
+    {% for tipp in tipps %}
+        <div class="row">
+            <div class="col-md-2">
+                <p>{{tipp.gruppen_name}}</p>  
+                </div>
+            <div class="col-md-2">
+            <p>{{tipp.spiel_termin|date:"d. F Y H:i"}}</p>  
+            </div>
+            <div class="col-md-1">
+                <p>{{tipp.spiel_ort}}</p>
+            </div>
+            <div class="col-md-3">
+                <p>{{tipp.heim_mannschaft}} : {{tipp.gast_mannschaft}} </p>
+            </div>
+            <div class="col-md-2">
+                {% if tipp.tipp_tore_heim is None and tipp.tipp_tore_gast is None%}
+                    <p>Tipp =></p>
+                {% else %}
+                    <p>Tipp =>  {{tipp.tipp_tore_heim}} : {{tipp.tipp_tore_gast}}</p>
+                {% endif %} 
+            </div>
+            <div class="col-md-2">
+                {% if tipp.tore_heim_mannschaft is None and tipp.tore_gast_mannschaft is None%}
+                    <p>Spielergebnis =></p>
+                {% else %}
+                    <p>Spielergebnis => {{tipp.tore_heim_mannschaft}} : {{tipp.tore_gast_mannschaft}}</p>
+                {% endif %} 
+            </div>
+        </div>
+    {% endfor %}
+    <!--Zurück zur StartSeite springen-->
+    <div class="row-mt-4">
+        <a class="nav-link" href="{% url 'startSeite'%}">zurück zur Startseite</a>
+    </div>
+</div>
 {% endblock content %}
