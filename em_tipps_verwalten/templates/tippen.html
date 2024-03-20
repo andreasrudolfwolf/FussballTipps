@@ -5,38 +5,44 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center mb-4">
-        <h1>Meine Tipps</h1>
+        <h1>Tipps</h1>
     </div>
-    {% for tipp in tipps %}
-        <div class="row">
-            <div class="col-md-2">
-                <p>{{tipp.gruppen_name}}</p>  
-                </div>
-            <div class="col-md-2">
-            <p>{{tipp.spiel_termin|date:"d. F Y H:i"}}</p>  
-            </div>
-            <div class="col-md-1">
-                <p>{{tipp.spiel_ort}}</p>
-            </div>
-            <div class="col-md-3">
-                <p>{{tipp.heim_mannschaft}} : {{tipp.gast_mannschaft}} </p>
-            </div>
-            <div class="col-md-2">
-                {% if tipp.tipp_tore_heim is None and tipp.tipp_tore_gast is None%}
-                    <p>Tipp =></p>
-                {% else %}
-                    <p>Tipp =>  {{tipp.tipp_tore_heim}} : {{tipp.tipp_tore_gast}}</p>
-                {% endif %} 
-            </div>
-            <div class="col-md-2">
-                {% if tipp.tore_heim_mannschaft is None and tipp.tore_gast_mannschaft is None%}
-                    <p>Spielergebnis =></p>
-                {% else %}
-                    <p>Spielergebnis => {{tipp.tore_heim_mannschaft}} : {{tipp.tore_gast_mannschaft}}</p>
-                {% endif %} 
-            </div>
-        </div>
-    {% endfor %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Gruppen </th>
+                <th scope="col">Termine</th>
+                <th scope="col">Spielort</th>
+                <th scope="col">Partie</th>
+                <th scope="col">Tipps</th>
+                <th scope="col">Tippername</th>
+                <th scope="col">Ergebnisse</th>
+            </tr>
+            </thead>
+                <tbody>
+                {% for t in tipps %}
+                <tr>
+                    <td>{{t.gruppen_name}}</td>
+                    <td>{{t.spiel_termin|date:"d. F Y H:i"}}</td>
+                    <td>{{t.spiel_ort}}</td>
+                    <td>{{t.heim_mannschaft}} : {{t.gast_mannschaft}}</td>
+                    {% if t.tore_heim_mannschaft is None and t.tore_gast_mannschaft is None%}
+                        <td>None : None </td>
+                    {% else %}
+                        <td>{{t.tore_heim_mannschaft}} : {{t.tore_gast_mannschaft}}</td>
+                    {% endif %}
+                    <td>{{t.tippername}}</td>
+                    {% if t.tipp_tore_heim is None and t.tipp_tore_gast is None%}
+                        <td>None : None </td>
+                    {% else %}
+                        <td>{{t.tipp_tore_heim}} : {{t.tipp_tore_gast}}</td>
+                    {% endif %}
+                    <td > <a href="{% url 'tippen_eingabe' id=1%}" class="bt btn-success">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+        </table>
     <!--Zurück zur StartSeite springen-->
     <div class="row-mt-4">
         <a class="nav-link" href="{% url 'startSeite'%}">zurück zur Startseite</a>

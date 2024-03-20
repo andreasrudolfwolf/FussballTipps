@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from .models import *
 #from django.contrib import messages
-#from django.contrib.auth import authenticate, login
-
-
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_protect
 
 def startSeite(request):
     gruppen = Gruppen.objects.all()
@@ -92,23 +92,30 @@ def tippen(request):
     tipps = Gruppen.objects.raw(query)
     return render(request, 'tippen.html', {'tipps' : tipps})
 
+@csrf_protect
 def loginSeite(request):
+    if request.method == 'POST':
+        benutzername = request.POST['benutzername']
+        passwort = request.POST['passwort']
+        benutzer = authenticate(request, username=benutzername, password=passwort)
+        print(f"{benutzer} und {passwort}")
+        if benutzer is not None:
+            login(request, benutzer)
+            print(request)
+            return redirect('tippen')
+        else:
+            print(benutzer)
+            None #messages.error(request, 'Benutzername oder Passwort nicht korrekt')
     return render(request, 'loginSeite.html')
+
+def logoutSeite(request):
+    logout(request)
+    return redirect('startSeite')
+
 
 def registerSeite(request):
     return render(request, 'registerSeite.html')
 
-"""def loginSeite(request):
-    #if request.method == 'POST':
-     #   benutzername = request.POST['benutzername']
-      #  passwort = request.POST['passwort']
-        #benutzer = authenticate(request, username=benutzername, password=passwort)
-
-        #if benutzer is not None:
-        #    login(request, benutzer)
-        #    return redirect('login')
-        #else:
-        #    messages.error(request, 'Benutzername oder Passwort nicht korrekt')
-
-    return render(request, 'em_tipps/login.html')
-"""
+def tippen_eingabe(request, id):
+    print('Bin Hier')
+    return render(request, 'tippen_eingabe.html', {})

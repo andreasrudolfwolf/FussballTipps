@@ -12,16 +12,23 @@
                 <a class="nav-link" href="{% url 'startSeite'%}">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'paarungen'%}">Paarungen</a>
+                <a class="nav-link" href="{% url 'paarungen'%}">Alle Spiele</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'tippen'%}">Tipps</a>
               </li>
             </ul>
             <ul class="navbar-nav ml-auto">
+              {% if request.user.is_authenticated %}
+              <h5 class="text-light m-2">Hallo {{request.user|title}}</h5>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logoutSeite'%}">Logout</a>
+              </li>
+              {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'loginSeite'%}">Login</a>
               </li>
+              {% endif %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'registerSeite'%}">Register</a>
               </li>

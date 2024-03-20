@@ -1,5 +1,21 @@
 {% extends 'index.html' %}
 
 {% block content %}
-    <h2>Loginseite</h2>
+    <div class="container mt-5">
+        <div class="row justify-content-center mb-4">
+            <h1>Login Seite zur Berechtigung zu tippen</h1>
+        </div>
+        <form method="POST">
+            {% csrf_token %}  
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-check-label">Benutzername</label>
+                <input type="text" name="benutzername" class="form-control" id=""exampleInputEmail1>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-check-label">Passwort</label>
+                <input type="password" name="passwort" class="form-control" id=""exampleInputPassword1>
+            </div>
+            <button type="submit" class="btn btn-secondary">Login</button>
+        </form>
+    </div>
 {% endblock content %}

@@ -34,7 +34,9 @@ class Paarungen(models.Model):
     spiel_termin = models.DateTimeField()
     spiel_ort = models.CharField(max_length=100, blank=True, null=True)
     bemerkung = models.TextField(blank=True, null=True)
-
+    
+    def __str__(self) -> str:
+        return f"{self.heim_mannschaft_id.mannschaft_name} gegen {self.gast_mannschaft_id.mannschaft_name}" 
 
 class Finalspiele(models.Model):
     final_id = models.AutoField(primary_key=True),
@@ -52,7 +54,7 @@ class Tipper(models.Model):
     tippername = models.CharField(max_length=100, db_column='Tippername', unique=True)
 
     def __str__(self) -> str:
-        return self.name
+        return f"{self.name} {self.vorname}"
 
 class Tipps(models.Model):
     tipp_id = models.AutoField(primary_key=True)
@@ -61,3 +63,5 @@ class Tipps(models.Model):
     tipp_tore_heim_mannschaft = models.IntegerField()
     tipp_tore_gast_mannschaft = models.IntegerField()
     tipp_angabe = models.DateTimeField(default=now, editable=False)
+    def __str__(self) -> str:
+        return f"{self.paarungen_id.heim_mannschaft_id.mannschaft_name} gegen {self.paarungen_id.gast_mannschaft_id.mannschaft_name}" 
