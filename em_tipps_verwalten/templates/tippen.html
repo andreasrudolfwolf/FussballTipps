@@ -17,30 +17,36 @@
                 <th scope="col">Tipps</th>
                 <th scope="col">Tippername</th>
                 <th scope="col">Ergebnisse</th>
+                <th scope="col">Tipp Heim</th>
+                <th scope="col">Tipp Gast</th>
             </tr>
             </thead>
                 <tbody>
-                {% for t in tipps %}
+                <form method="POST">
+                {% csrf_token %}  
+                {% for r in tipps %}  
                 <tr>
-                    <td>{{t.gruppen_name}}</td>
-                    <td>{{t.spiel_termin|date:"d. F Y H:i"}}</td>
-                    <td>{{t.spiel_ort}}</td>
-                    <td>{{t.heim_mannschaft}} : {{t.gast_mannschaft}}</td>
-                    {% if t.tore_heim_mannschaft is None and t.tore_gast_mannschaft is None%}
+                    <td>{{r.gruppen_name}}</td>
+                    <td>{{r.spiel_termin|date:"d. F Y H:i"}}</td>
+                    <td>{{r.spiel_ort}}</td>
+                    <td>{{r.heim_mannschaft}} : {{r.gast_mannschaft}}</td>
+                    {% if r.tore_heim_mannschaft is None and r.tore_gast_mannschaft is None%}
                         <td>None : None </td>
                     {% else %}
-                        <td>{{t.tore_heim_mannschaft}} : {{t.tore_gast_mannschaft}}</td>
+                        <td>{{r.tore_heim_mannschaft}} : {{r.tore_gast_mannschaft}}</td>
                     {% endif %}
-                    <td>{{t.tippername}}</td>
-                    {% if t.tipp_tore_heim is None and t.tipp_tore_gast is None%}
+                    <td>{{r.name}}</td>
+                    {% if r.tipp_tore_heim is None and r.tipp_tore_gast is None%}
                         <td>None : None </td>
                     {% else %}
-                        <td>{{t.tipp_tore_heim}} : {{t.tipp_tore_gast}}</td>
+                        <td>{{r.tipp_tore_heim}} : {{r.tipp_tore_gast}}</td>
                     {% endif %}
-                    <td > <a href="{% url 'tippen_eingabe' id=1%}" class="bt btn-success">Edit</a>
-                    </td>
+                    <td><input type="number" name="heim_tore" class="form-control score-input" value="{{r.tipp_tore_heim}}" maxlength="2"></td>
+                    <td><input type="number" name="gast_tore" class="form-control score-input" value="{{r.tipp_tore_gast}}" maxlength="2"></td>
                 </tr>
                 {% endfor %}
+                <button type="submit" class="btn btn-primary">Tippabgabe</button>
+                </form>
                 </tbody>
         </table>
     <!--Zurück zur StartSeite springen-->

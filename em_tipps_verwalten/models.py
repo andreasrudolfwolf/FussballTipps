@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.timezone import now
+from django.contrib.auth.models import User
+
 
 class Gruppen(models.Model):
     gruppen_id = models.AutoField(primary_key=True),
@@ -45,13 +47,13 @@ class Finalspiele(models.Model):
 
     def __str__(self) -> str:
         return self.final_name
-
-
+# Tipper ist mit LoginUser OneToOne verknüpft
 class Tipper(models.Model):
     tipper_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100, db_column='Name')  
+    name = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  
     vorname = models.CharField(max_length=100, db_column='Vorname') 
     tippername = models.CharField(max_length=100, db_column='Tippername', unique=True)
+    email = models.EmailField(max_length=200, null=True)
 
     def __str__(self) -> str:
         return f"{self.name} {self.vorname}"

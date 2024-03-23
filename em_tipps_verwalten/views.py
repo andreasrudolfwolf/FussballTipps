@@ -77,9 +77,10 @@ def tippen(request):
             ma.tore_gast_mannschaft,
             t.tipp_tore_heim_mannschaft tipp_tore_heim,
             t.tipp_tore_gast_mannschaft tipp_tore_gast,
+            ti.tipper_id,
             ti.name,
             ti.vorname,
-            ti.tippername
+            ti.tippername tippername
             from 
                 em_tipps_verwalten_gruppen g
             join em_tipps_verwalten_mannschaften m on g.id = m.gruppen_id_id
@@ -90,6 +91,15 @@ def tippen(request):
             order by ma.spiel_termin asc
     """
     tipps = Gruppen.objects.raw(query)
+
+    if request.method == 'POST':
+        heimtore_list = request.POST.getlist('heim_tore')
+        gasttore_list = request.POST.getlist('gast_tore')
+        i = 0
+        for tipp in tipps:
+            print(f"{heimtore_list[i]} : {gasttore_list[i]} und {tipp.paarungen_id}")
+            i += 1
+        return redirect('tippen')
     return render(request, 'tippen.html', {'tipps' : tipps})
 
 @csrf_protect
