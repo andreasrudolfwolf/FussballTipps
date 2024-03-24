@@ -4,6 +4,8 @@ from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_protect
+from django.utils import timezone
+from django.shortcuts import render, get_object_or_404
 
 def startSeite(request):
     gruppen = Gruppen.objects.all()
@@ -75,6 +77,7 @@ def tippen(request):
             m2.mannschaft_id, m2.mannschaft_name gast_mannschaft,
             ma.tore_heim_mannschaft,
             ma.tore_gast_mannschaft,
+            t.tipp_id,
             t.tipp_tore_heim_mannschaft tipp_tore_heim,
             t.tipp_tore_gast_mannschaft tipp_tore_gast,
             ti.tipper_id,
@@ -91,13 +94,39 @@ def tippen(request):
             order by ma.spiel_termin asc
     """
     tipps = Gruppen.objects.raw(query)
-
     if request.method == 'POST':
+        # Dateneingabe von HTML Formular
         heimtore_list = request.POST.getlist('heim_tore')
         gasttore_list = request.POST.getlist('gast_tore')
+        paarungen_id = request.POST.getlist('paarungen_id')
+        tipp_id = request.POST.getlist('tipp_id')
+        print(tipp_id)
         i = 0
         for tipp in tipps:
-            print(f"{heimtore_list[i]} : {gasttore_list[i]} und {tipp.paarungen_id}")
+            print(f"Paarung:{paarungen_id[i]} Tore:{heimtore_list[i]} : {gasttore_list[i]} und User: {request.user.id} und tipp_id {tipp_id[i]}")
+            #print(request.user.id)
+            # Prüfen, ob create oder update!
+            # Wenn es Tipps gibt, dann werden die in die DB geschrieben
+            #print(tipp_id[i])
+            if (heimtore_list[i] != tipp.tipp_tore_heim and heimtore_list[i] != '') or \
+               (gasttore_list[i] != tipp.tipp_tore_gast and gasttore_list[i] != '') \
+                and tipp_id[i] is not None:
+                pass
+                if tipp_id[i] != '':
+                    print(tipp_id[i])
+                #update_tipps = get_object_or_404(Tipps, tipp_id=tipp_id[i])
+                #update_tipps.tipp_tore_heim_mannschaft = heimtore_list[i]
+                #update_tipps.tipp_tore_gast_mannschaft = gasttore_list[i]
+                #update_tipps.tipp_angabe = timezone.now()
+                #update_tipps.save()
+            if tipp_id[i] is None:
+                print('Neuer Tipp')
+            #    create_tipp = Tipps(tipper_id = 1, #request.user.id, 
+            #                        paarungen_id = tipp.paarungen_id, 
+            #                        tipp_tore_heim_mannschaft = heimtore_list[i], 
+            #                        tipp_tore_gast_mannschaft = gasttore_list[i], 
+            #                        tipp_angabe = timezone.now)
+            #    create_tipp.save()
             i += 1
         return redirect('tippen')
     return render(request, 'tippen.html', {'tipps' : tipps})

@@ -42,7 +42,10 @@
                         <td>{{r.tipp_tore_heim}} : {{r.tipp_tore_gast}}</td>
                     {% endif %}
                     <td><input type="number" name="heim_tore" class="form-control score-input" value="{{r.tipp_tore_heim}}" maxlength="2"></td>
-                    <td><input type="number" name="gast_tore" class="form-control score-input" value="{{r.tipp_tore_gast}}" maxlength="2"></td>
+                    <td><input type="number" name="gast_tore" class="form-control score-input" value="{{r.tipp_tore_gast}}" maxlength="2">
+                        <input type="hidden" name="paarungen_id" value="{{r.paarungen_id}}">
+                        <input type="hidden" name="tipp_id" value="{{r.tipp_id}}">
+                    </td>
                 </tr>
                 {% endfor %}
                 <button type="submit" class="btn btn-primary">Tippabgabe</button>

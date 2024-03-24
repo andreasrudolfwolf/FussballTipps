@@ -62,8 +62,8 @@ class Tipps(models.Model):
     tipp_id = models.AutoField(primary_key=True)
     tipper_id = models.ForeignKey(Tipper, models.DO_NOTHING, db_column='tipper_id')
     paarungen_id = models.ForeignKey(Paarungen, models.DO_NOTHING, db_column='paarungen_id')
-    tipp_tore_heim_mannschaft = models.IntegerField()
-    tipp_tore_gast_mannschaft = models.IntegerField()
+    tipp_tore_heim_mannschaft = models.IntegerField(blank=True, null=True)
+    tipp_tore_gast_mannschaft = models.IntegerField(blank=True, null=True)
     tipp_angabe = models.DateTimeField(default=now, editable=False)
     def __str__(self) -> str:
         return f"{self.paarungen_id.heim_mannschaft_id.mannschaft_name} gegen {self.paarungen_id.gast_mannschaft_id.mannschaft_name}" 
