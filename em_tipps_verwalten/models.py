@@ -50,10 +50,10 @@ class Finalspiele(models.Model):
 # Tipper ist mit LoginUser OneToOne verknüpft
 class Tipper(models.Model):
     tipper_id = models.AutoField(primary_key=True)
-    name = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  
+    #name = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  
     vorname = models.CharField(max_length=100, db_column='Vorname') 
     tippername = models.CharField(max_length=100, db_column='Tippername', unique=True)
-    email = models.EmailField(max_length=200, null=True)
+    #email = models.EmailField(max_length=200, null=True)
 
     def __str__(self) -> str:
         return f"{self.name} {self.vorname}"

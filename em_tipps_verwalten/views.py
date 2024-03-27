@@ -98,35 +98,34 @@ def tippen(request):
         # Dateneingabe von HTML Formular
         heimtore_list = request.POST.getlist('heim_tore')
         gasttore_list = request.POST.getlist('gast_tore')
-        paarungen_id = request.POST.getlist('paarungen_id')
+        paarungen_id_list = request.POST.getlist('paarungen_id')
         tipp_id = request.POST.getlist('tipp_id')
-        print(tipp_id)
         i = 0
+        new_tipp = Tipps()
         for tipp in tipps:
-            print(f"Paarung:{paarungen_id[i]} Tore:{heimtore_list[i]} : {gasttore_list[i]} und User: {request.user.id} und tipp_id {tipp_id[i]}")
-            #print(request.user.id)
-            # Prüfen, ob create oder update!
-            # Wenn es Tipps gibt, dann werden die in die DB geschrieben
-            #print(tipp_id[i])
-            if (heimtore_list[i] != tipp.tipp_tore_heim and heimtore_list[i] != '') or \
-               (gasttore_list[i] != tipp.tipp_tore_gast and gasttore_list[i] != '') \
-                and tipp_id[i] is not None:
-                pass
-                if tipp_id[i] != '':
-                    print(tipp_id[i])
-                #update_tipps = get_object_or_404(Tipps, tipp_id=tipp_id[i])
-                #update_tipps.tipp_tore_heim_mannschaft = heimtore_list[i]
-                #update_tipps.tipp_tore_gast_mannschaft = gasttore_list[i]
-                #update_tipps.tipp_angabe = timezone.now()
-                #update_tipps.save()
-            if tipp_id[i] is None:
-                print('Neuer Tipp')
-            #    create_tipp = Tipps(tipper_id = 1, #request.user.id, 
-            #                        paarungen_id = tipp.paarungen_id, 
-            #                        tipp_tore_heim_mannschaft = heimtore_list[i], 
-            #                        tipp_tore_gast_mannschaft = gasttore_list[i], 
-            #                        tipp_angabe = timezone.now)
-            #    create_tipp.save()
+            print(f"Paarung_id:{paarungen_id_list[i]} \
+                    Tore:{heimtore_list[i]} : {gasttore_list[i]} und \
+                    User: {request.user.id} und tipp_id {tipp_id[i]} und Tipper_Id: {tipp.tipper_id}")
+
+            # Prüfen, ob create oder update
+            if tipp_id[i]  != 'None':
+                update_tipps = get_object_or_404(Tipps, tipp_id=tipp_id[i])
+                update_tipps.tipp_tore_heim_mannschaft = heimtore_list[i]
+                update_tipps.tipp_tore_gast_mannschaft = gasttore_list[i]
+                update_tipps.tipp_angabe = timezone.now()
+                update_tipps.save()
+            elif tipp_id[i] == 'None':
+                if heimtore_list[i] != '' and gasttore_list[i] != '':
+                    # Damit einer neuer Tipp angelegt werden kann, mussen die FK Instancen
+                    # gesetzt werden.
+                    paarungen_instance = Paarungen.objects.get(pk=paarungen_id_list[i])
+                    tipper_instance = Tipper.objects.get(pk=1)
+                    new_tipp.tipper_id = tipper_instance #int(request.user.id)
+                    new_tipp.paarungen_id = paarungen_instance #int(paarungen_id_list[i]) 
+                    new_tipp.tipp_tore_heim_mannschaft = int(heimtore_list[i]) 
+                    new_tipp.tipp_tore_gast_mannschaft = int(gasttore_list[i]) 
+                    new_tipp.tipp_angabe = str(timezone.now())
+                    new_tipp.save()
             i += 1
         return redirect('tippen')
     return render(request, 'tippen.html', {'tipps' : tipps})

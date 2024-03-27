@@ -14,9 +14,9 @@
                 <th scope="col">Termine</th>
                 <th scope="col">Spielort</th>
                 <th scope="col">Partie</th>
-                <th scope="col">Tipps</th>
-                <th scope="col">Tippername</th>
                 <th scope="col">Ergebnisse</th>
+                <th scope="col">Tippername</th>
+                <th scope="col">Tipps</th>
                 <th scope="col">Tipp Heim</th>
                 <th scope="col">Tipp Gast</th>
             </tr>
@@ -35,7 +35,7 @@
                     {% else %}
                         <td>{{r.tore_heim_mannschaft}} : {{r.tore_gast_mannschaft}}</td>
                     {% endif %}
-                    <td>{{r.name}}</td>
+                    <td>{{r.tippername}}</td>
                     {% if r.tipp_tore_heim is None and r.tipp_tore_gast is None%}
                         <td>None : None </td>
                     {% else %}
